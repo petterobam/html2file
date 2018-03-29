@@ -18,13 +18,13 @@
 
 ![演示图片](docs/images/my-html2file.gif)
 
-1. 网页转PDF（wkhtml2pdf插件）
+1. 网页转PDF（[wkhtml2pdf插件](https://wkhtmltopdf.org)）
 
     - 例如：http://localhost:7800/html2pdf?pageUrl=https://wkhtmltopdf.org
     
-2. 网页转图片（wkhtml2pdf插件）
+2. 网页转图片（[wkhtml2pdf插件](https://wkhtmltopdf.org)）
 
-    - 例如：http://localhost:7800/html2image?pageUrl=https://wkhtmltopdf.org&fileExt=[可为空|默认.pdf]
+    - 例如：http://localhost:7800/html2image?pageUrl=https://wkhtmltopdf.org&fileExt=[可为空|默认 ```.png```]
     
 # 服务部署
 

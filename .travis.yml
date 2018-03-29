@@ -3,4 +3,4 @@ dist: precise
 jdk:
   - oraclejdk8
 notifications:
-    slack: database-oop:wxHb5YWjKFqRh14i4TyolQ6p
+    slack: my-github:HR5snotT4kXfhchurTHqQOvc

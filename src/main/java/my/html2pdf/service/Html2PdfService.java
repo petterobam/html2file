@@ -1,12 +1,11 @@
 package my.html2pdf.service;
 
+import my.utils.BaseUtils;
 import my.utils.CmdUtils;
+import my.utils.FilesUtils;
 import my.utils.OsInfo;
 import my.utils.PathUtils;
-import my.utils.BaseUtils;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
 
 /**
  * html转pdf的服务
@@ -33,7 +32,6 @@ public class Html2PdfService {
      */
     public String excute(String pageUrl) throws Exception {
         String outputPath = new StringBuffer("/output/").append(BaseUtils.getDateStr("yyyyMMdd")).append("/pdf/").append(BaseUtils.uuid2()).append(".pdf").toString();
-
         String cmdStr = getCmdStr(pageUrl, outputPath);
         boolean success = CmdUtils.excute(cmdStr);
         if (success) {
@@ -54,14 +52,7 @@ public class Html2PdfService {
         StringBuilder cmdStr = new StringBuilder();
         String absoultOutputPath = PathUtils.getClassRootPath(outputPath);
         /************************输出文件夹检查************************/
-        int index = absoultOutputPath.lastIndexOf("/");
-        if(index > 0) {
-            String dirPath = absoultOutputPath.substring(0,index);
-            File file = new File(dirPath);
-            while (!file.exists()) {
-                file.mkdirs();
-            }
-        }
+        FilesUtils.checkFolderAndCreate(absoultOutputPath);
         String absoultExePath = "";
         if (OsInfo.isWindows()) {//windows系统
             absoultExePath = getWindowExePath();

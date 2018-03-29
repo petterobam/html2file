@@ -1,12 +1,11 @@
 package my.html2image.service;
 
+import my.utils.BaseUtils;
 import my.utils.CmdUtils;
+import my.utils.FilesUtils;
 import my.utils.OsInfo;
 import my.utils.PathUtils;
-import my.utils.BaseUtils;
 import org.springframework.stereotype.Service;
-
-import java.io.File;
 
 /**
  * html页面转image的服务
@@ -67,14 +66,7 @@ public class Html2ImageService {
         StringBuilder cmdStr = new StringBuilder();
         String absoultOutputPath = PathUtils.getClassRootPath(outputPath);
         /************************输出文件夹检查************************/
-        int index = absoultOutputPath.lastIndexOf("/");
-        if(index > 0) {
-            String dirPath = absoultOutputPath.substring(0,index);
-            File file = new File(dirPath);
-            while (!file.exists()) {
-                file.mkdirs();
-            }
-        }
+        FilesUtils.checkFolderAndCreate(absoultOutputPath);
         String absoultExePath = "";
         if (OsInfo.isWindows()) {//windows系统
             absoultExePath = getWindowExePath();

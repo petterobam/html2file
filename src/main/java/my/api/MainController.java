@@ -3,6 +3,7 @@ package my.api;
 import my.api.entity.MyAjaxPost;
 import my.api.entity.MyAjaxResult;
 import my.html2image.service.Html2ImageService;
+import my.html2markdown.service.Html2MarkdownService;
 import my.html2pdf.service.Html2PdfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,8 @@ public class MainController {
     private Html2ImageService html2ImageService;
     @Autowired
     private Html2PdfService html2PdfService;
+    @Autowired
+    private Html2MarkdownService html2MarkdownService;
 
     /**
      * html页面转图片
@@ -52,6 +55,22 @@ public class MainController {
             return "/error";
         }
     }
+    /**
+     * html页面markdown
+     *
+     * @param pageUrl
+     * @return
+     */
+    @RequestMapping("/html2markdown")
+    public String html2markdown(@RequestParam(name = "pageUrl") String pageUrl) {
+        try {
+            String fileRelativePath = html2MarkdownService.excute(pageUrl);
+            return "redirect:" + fileRelativePath;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/error";
+        }
+    }
 
     /**
      * html页面转文档
@@ -66,9 +85,11 @@ public class MainController {
         try {
             String fileRelativePath = null;
             if (MyAjaxPost.TO_IMG.equals(myAjaxPost.getFileType())) {
-                fileRelativePath = html2ImageService.excute(myAjaxPost.getHtmlUrl(), myAjaxPost.getFileExt());
+                fileRelativePath = html2ImageService.excute(myAjaxPost.getPageUrl(), myAjaxPost.getFileExt());
             } else if (MyAjaxPost.TO_IMG.equals(myAjaxPost.getFileType())) {
-                fileRelativePath = html2PdfService.excute(myAjaxPost.getHtmlUrl());
+                fileRelativePath = html2PdfService.excute(myAjaxPost.getPageUrl());
+            }else if (MyAjaxPost.TO_MD.equals(myAjaxPost.getFileType())) {
+                fileRelativePath = html2MarkdownService.excute(myAjaxPost.getPageUrl());
             }else {
                 fileRelativePath = "暂时不支持该类型文档转化！";
             }

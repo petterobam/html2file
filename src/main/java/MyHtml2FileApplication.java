@@ -15,7 +15,7 @@ import java.util.Arrays;
  * @author houya
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {"my.config", "my.html2image", "my.html2pdf","my.api"})
+@ComponentScan(basePackages = {"my.config", "my.html2image", "my.html2pdf","my.html2markdown","my.api"})
 public class MyHtml2FileApplication {
     /**
      * 日志工具

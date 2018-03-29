@@ -3,10 +3,11 @@ package my.api.entity;
 public class MyAjaxPost {
     public static final String TO_IMG = "1";
     public static final String TO_PDF = "2";
+    public static final String TO_MD = "2";
     /**
      * 目标链接
      */
-    private String htmlUrl;
+    private String pageUrl;
     /**
      * 文件类型
      */
@@ -17,13 +18,12 @@ public class MyAjaxPost {
     private String fileExt;
 
 
-
-    public String getHtmlUrl() {
-        return htmlUrl;
+    public String getPageUrl() {
+        return pageUrl;
     }
 
-    public void setHtmlUrl(String htmlUrl) {
-        this.htmlUrl = htmlUrl;
+    public void setPageUrl(String pageUrl) {
+        this.pageUrl = pageUrl;
     }
 
     public String getFileType() {

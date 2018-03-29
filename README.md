@@ -28,7 +28,7 @@
 
 3. 网页转Markdown（参用[jHTML2Md](https://github.com/pnikosis/jHTML2Md)）
 
-    - 例如：http://localhost:7800/html2image?pageUrl=https://wkhtmltopdf.org&fileExt=[可为空|默认 ```.png```]
+    - 例如：http://localhost:7800/html2markdown?pageUrl=http://jsoup.org
     
 # 服务部署
 

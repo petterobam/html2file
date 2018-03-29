@@ -16,20 +16,22 @@
 
 # 目前支持
 
-![演示图片](docs/images/my-html2file.gif)
+![wkhtmltopdf演示图片](docs/images/my-html2file-pdf-image.gif)
 
-1. 网页转PDF（[wkhtml2pdf插件](https://wkhtmltopdf.org)）
+1.网页转PDF（[wkhtml2pdf插件](https://wkhtmltopdf.org)）
 
-    - 例如：http://localhost:7800/html2pdf?pageUrl=https://wkhtmltopdf.org
-    
-2. 网页转图片（[wkhtml2pdf插件](https://wkhtmltopdf.org)）
+    例如：http://localhost:7800/html2pdf?pageUrl=https://wkhtmltopdf.org
 
-    - 例如：http://localhost:7800/html2image?pageUrl=https://wkhtmltopdf.org&fileExt=[可为空|默认 ```.png```]
+2.网页转图片（[wkhtml2pdf插件](https://wkhtmltopdf.org)）
 
-3. 网页转Markdown（参用[jHTML2Md](https://github.com/pnikosis/jHTML2Md)）
+    例如：http://localhost:7800/html2image?pageUrl=https://wkhtmltopdf.org&fileExt=[可为空|默认 ```.png```]
 
-    - 例如：http://localhost:7800/html2markdown?pageUrl=http://jsoup.org
-    
+![jHTML2Md演示图片](docs/images/my-html2file-markdown.gif)
+
+3.网页转Markdown（参用[jHTML2Md](https://github.com/pnikosis/jHTML2Md)）
+
+    例如：http://localhost:7800/html2markdown?pageUrl=http://jsoup.org
+
 # 服务部署
 
 服务开箱即用，Maven已经配好发布过程，install后将 ```dist``` 内的文件夹复制到服务器，将进入到 ```bin/``` 文件夹下面
@@ -46,6 +48,6 @@ sh my-html2file.sh log    #日志查看
 ```
 
 2. windows系统
-    
+
 直接双击 ```my-html2file.bat``` 文件即可，也可以将该文件注册成服务，在服务管理里面启动。
-    
+

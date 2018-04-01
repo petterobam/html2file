@@ -74,7 +74,8 @@ public class Html2ImageService {
         } else {//默认linux系统
             absoultExePath = getLinuxExePath();
             //需要给脚本授权
-            cmdStr.append("chmod +x ").append(absoultExePath).append(" && ");
+            //cmdStr.append("chmod +x ").append(absoultExePath).append(" && ");
+            CmdUtils.excute("chmod +x " + absoultExePath);
         }
         cmdStr.append(absoultExePath).append(" ").append(pageUrl).append(" ").append(absoultOutputPath);
         return cmdStr.toString();

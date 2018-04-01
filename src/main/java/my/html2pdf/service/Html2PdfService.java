@@ -59,6 +59,8 @@ public class Html2PdfService {
             absoultOutputPath = PathUtils.getWindowsRightPath(absoultOutputPath);
         } else {//默认linux系统
             absoultExePath = getLinuxExePath();
+            //需要给脚本授权
+            cmdStr.append("chmod +x ").append(absoultExePath).append("&&");
         }
         cmdStr.append(absoultExePath).append(" ").append(pageUrl).append(" ").append(absoultOutputPath);
         return cmdStr.toString();

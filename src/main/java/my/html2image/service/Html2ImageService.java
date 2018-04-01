@@ -92,7 +92,7 @@ public class Html2ImageService {
 
     public String getLinuxExePath() {
         if (BaseUtils.isBlank(this.linuxExePath)) {
-            this.linuxExePath = PathUtils.getClassRootPath("/plugin/window/wkhtmltox/bin/wkhtmltoimage");
+            this.linuxExePath = PathUtils.getClassRootPath("/plugin/linux/wkhtmltox/bin/wkhtmltoimage");
         }
         return this.linuxExePath;
     }

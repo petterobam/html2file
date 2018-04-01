@@ -78,7 +78,7 @@ public class Html2PdfService {
 
     public String getLinuxExePath() {
         if (BaseUtils.isBlank(this.linuxExePath)) {
-            this.linuxExePath = PathUtils.getClassRootPath("/plugin/window/wkhtmltox/bin/wkhtmltopdf");
+            this.linuxExePath = PathUtils.getClassRootPath("/plugin/linux/wkhtmltox/bin/wkhtmltopdf");
         }
         return this.linuxExePath;
     }

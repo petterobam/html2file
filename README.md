@@ -53,8 +53,8 @@
     - ```pageHtmlContent```：目标页面Html内容，当不能提供pageUrl时，将html内容传入也可以转化，其中引用的css和js需要为带http的路径，不能为相对路径
 
 4. 服务出参：
-    ```java
-    {
+    ```java
+    {
         "status"：1,
         "result"："/output/20180417/pdf/9c3fd3018bb041429bba702cd127be9e.pdf",
         "errorMsg"：""

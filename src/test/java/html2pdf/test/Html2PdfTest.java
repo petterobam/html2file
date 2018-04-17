@@ -1,6 +1,6 @@
 package html2pdf.test;
 
-import my.html2pdf.service.Html2PdfService;
+import my.html2file.html2pdf.service.Html2PdfService;
 import org.junit.Test;
 
 /**

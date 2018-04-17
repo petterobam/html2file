@@ -149,7 +149,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>my.sqlite.console.MySqliteConsoleApplication</mainClass>
+                            <mainClass>my.html2file.MyHtml2FileApplication</mainClass>
                             <classpathPrefix>lib/</classpathPrefix>
                             <addClasspath>true</addClasspath>
                         </manifest>

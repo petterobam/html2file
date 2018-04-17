@@ -1,6 +1,6 @@
 package systeminfo.test;
 
-import my.utils.OsInfo;
+import my.html2file.utils.OsInfo;
 import org.junit.Test;
 
 public class SystemInfoTest {

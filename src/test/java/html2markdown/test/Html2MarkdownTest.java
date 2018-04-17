@@ -1,6 +1,6 @@
 package html2markdown.test;
 
-import my.html2markdown.service.Html2MarkdownService;
+import my.html2file.html2markdown.service.Html2MarkdownService;
 import org.junit.Test;
 
 /**

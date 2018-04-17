@@ -1,6 +1,6 @@
 package html2image.test;
 
-import my.html2image.service.Html2ImageService;
+import my.html2file.html2image.service.Html2ImageService;
 import org.junit.Test;
 
 /**

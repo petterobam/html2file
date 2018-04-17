@@ -32,6 +32,39 @@
 
     例如：http://localhost:7800/html2markdown?pageUrl=http://jsoup.org
 
+# API 服务
+
+1. 服务入口：```/html2file```
+
+2. 请求方式：```post```
+
+3. 服务入参：
+```json
+{
+    "pageUrl":"https://wkhtmltopdf.org",
+    "fileType":"2",
+    "fileExt":""
+    "pageHtmlContent":""
+}
+```
+
+    - ```pageUrl```：目标链接，带http的链接，无登陆权限验证
+    - ```fileType```：文件类型，1-img,2-pdf,3-markdown
+    - ```fileExt```：文件扩展名，图片转化可以转化为不同后缀格式的图片
+    - ```pageHtmlContent```：目标页面Html内容，当不能提供pageUrl时，将html内容传入也可以转化，其中引用的css和js需要为带http的路径，不能为相对路径
+
+4. 服务出参：
+```json
+{
+    "status"：1,
+    "result"："/output/20180417/pdf/9c3fd3018bb041429bba702cd127be9e.pdf",
+    "errorMsg"：""
+}
+```
+    - ```status```：状态，1-成功,-1-失败
+    - ```result```：结果，这里为转化后的文件路径
+    - ```errorMsg```：错误信息
+
 # 服务部署
 
 服务开箱即用，Maven已经配好发布过程，install后将 ```dist``` 内的文件夹复制到服务器，将进入到 ```bin/``` 文件夹下面

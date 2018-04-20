@@ -24,7 +24,7 @@
 
 2.网页转图片（[wkhtml2pdf插件](https://wkhtmltopdf.org)）
 
-    例如：http://localhost:7800/html2image?pageUrl=https://wkhtmltopdf.org&fileExt=[可为空|默认 ```.png```]
+    例如：http://localhost:7800/html2image?pageUrl=https://wkhtmltopdf.org&fileExt=[可为空|默认 .png]
 
 ![jHTML2Md演示图片](docs/images/my-html2file-markdown.gif)
 
@@ -78,6 +78,7 @@ sh my-html2file.sh reload #重启服务
 sh my-html2file.sh status #状态查看
 sh my-html2file.sh log    #日志查看
 ```
+中文乱码或空白的话，将 ```resources/font/simsun.ttc``` 拷贝到linux服务器 ```/usr/share/fonts/``` 目录下
 
 2. windows系统
 

@@ -7,6 +7,7 @@ import my.html2file.html2image.service.Html2ImageService;
 import my.html2file.html2markdown.service.Html2MarkdownService;
 import my.html2file.html2pdf.service.Html2PdfService;
 import my.html2file.utils.BaseUtils;
+import my.html2file.utils.PathUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -93,8 +94,8 @@ public class MainController {
             if(BaseUtils.isBlank(myAjaxPost.getPageUrl()) && !BaseUtils.isBlank(myAjaxPost.getPageHtmlContent())){
                 //如果只传入了html内容，未传入页面链接（pageUrl），将HTML内容保存为本应用的HTML文档，并且获得http链接地址赋给
                 String tempHtmlPath = html2HtmlService.excute(myAjaxPost.getPageHtmlContent());
-                StringBuffer newPageUrl = new StringBuffer("http://127.0.0.1:").append(this.serverPort).append(tempHtmlPath);
-                myAjaxPost.setPageUrl(newPageUrl.toString());
+                String newPageUrl = PathUtils.getPathBaseClass(tempHtmlPath);
+                myAjaxPost.setPageUrl(newPageUrl);
             }
             String fileRelativePath = null;
             if (MyAjaxPost.TO_IMG.equals(myAjaxPost.getFileType())) {

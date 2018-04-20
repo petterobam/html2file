@@ -20,7 +20,7 @@ public class Html2HtmlService {
      * @return
      */
     public String excute(String pageHtmlContent) throws Exception {
-        String outputPath = new StringBuffer("/temp/").append(BaseUtils.getDateStr("yyyyMMdd")).append("/html/").append(BaseUtils.uuid2()).append(".html").toString();
+        String outputPath = new StringBuffer("/output/").append(BaseUtils.getDateStr("yyyyMMdd")).append("/html/").append(BaseUtils.uuid2()).append(".html").toString();
         String absoultOutputPath = PathUtils.getClassRootPath(outputPath);
         FilesUtils.checkFolderAndCreate(absoultOutputPath);
         FilesUtils.newFile(absoultOutputPath,pageHtmlContent,"UTF-8");

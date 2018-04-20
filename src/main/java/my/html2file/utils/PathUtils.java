@@ -27,6 +27,20 @@ public class PathUtils {
     }
 
     /**
+     * 获取参照class路径，获取原生路径
+     * @param path
+     * @return
+     */
+    public static String getPathBaseClass(String path){
+        path = PathUtils.trimToEmpty(path);
+        String filePath = PathUtils.class.getResource(path).getPath().toString();
+        if(OsInfo.isWindows()){
+            return getWindowsRightPath(filePath);
+        }
+        return filePath;
+    }
+
+    /**
      * 获取window下的正确路径
      * @param path
      * @return

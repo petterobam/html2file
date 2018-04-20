@@ -37,7 +37,11 @@ public class Html2PdfService {
         if (success) {
             return outputPath;
         } else {
-            throw new Exception("转化异常！");
+            if(FilesUtils.isExistNotCreate(outputPath)){
+                return outputPath;
+            }else {
+                throw new Exception("转化异常！");
+            }
         }
     }
 

@@ -11,8 +11,8 @@ import org.junit.Test;
  */
 public class Html2ImageTest {
     @Test
-    public void html2pdf() throws Exception {
-        Html2ImageService html2PdfService = new Html2ImageService();//未引入spring，手动实例化
-        html2PdfService.excute("https://wkhtmltopdf.org");
+    public void html2iImage() throws Exception {
+        Html2ImageService html2ImageService = new Html2ImageService();//未引入spring，手动实例化
+        html2ImageService.excute("https://wkhtmltopdf.org");
     }
 }

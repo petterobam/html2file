@@ -57,7 +57,7 @@ public class DownloadUtils {
         //文件保存位置
         File saveDir = new File(savePath);
         if (!saveDir.exists()) {
-            while (!saveDir.mkdir() && !saveDir.mkdirs());
+            while (!saveDir.mkdir() && !saveDir.mkdirs()) ;
         }
         File file = new File(saveDir + File.separator + fileName);
         FileOutputStream fos = null;
@@ -72,6 +72,7 @@ public class DownloadUtils {
         }
         logger.info("[" + urlStr + "] 下载成功！");
     }
+
     /**
      * 从网络Url中下载文件
      *
@@ -81,6 +82,7 @@ public class DownloadUtils {
     public static String getContentFromUrl(String urlStr) {
         return getContentFromUrl(urlStr, 3000);
     }
+
     /**
      * 从网络Url中下载文件
      *
@@ -98,13 +100,13 @@ public class DownloadUtils {
             logger.error("读取异常！", e);
             e.printStackTrace();
         }
-        if(bytes == null){
+        if (bytes == null) {
             return "";
         }
         //String data = Base64.getEncoder().encodeToString(getData);
         String data = null;
         try {
-            data = new String(bytes,"utf-8");
+            data = new String(bytes, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return null;
@@ -130,6 +132,7 @@ public class DownloadUtils {
      * @return
      */
     public static InputStream getInputStreamFromUrl(String urlStr, int timeout) {
+        logger.info("下载文件：{}", urlStr);
         URL url = null;
         try {
             url = new URL(urlStr);
@@ -170,7 +173,7 @@ public class DownloadUtils {
      * @throws IOException
      */
     public static byte[] readInputStream(InputStream inputStream) throws IOException {
-        if(inputStream == null){
+        if (inputStream == null) {
             return null;
         }
         byte[] buffer = new byte[1024];

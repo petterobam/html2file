@@ -32,9 +32,11 @@
 
     例如：http://localhost:7800/html2markdown?pageUrl=http://jsoup.org
 
+![html2word演示图片](docs/images/my-html2file-word.gif)
+
 4.网页转WORD（参用[Apache POI](http://poi.apache.org)）
 
-    例如：http://localhost:7800/html2word?pageUrl=https://www.tuicool.com/articles/vuEvEva
+    例如：http://localhost:7800/html2word?pageUrl=http://poi.apache.org
 
 # API 服务
 

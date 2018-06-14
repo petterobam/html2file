@@ -5,6 +5,8 @@ import my.html2file.utils.DownloadUtils;
 import my.html2file.utils.FilesUtils;
 import my.html2file.utils.PathUtils;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -23,6 +25,7 @@ import java.util.regex.Pattern;
  */
 @Service
 public class Html2WordService {
+    protected static final Logger logger = LoggerFactory.getLogger(Html2WordService.class);
     /**
      * 解析生成PDF
      * @param pageUrl
@@ -79,8 +82,10 @@ public class Html2WordService {
         if(BaseUtils.isBlank(html)){
             return html;
         }
-        String domain = getDomainWithHttp(pageUrl);
-        html = loadCssFileStrToHtml(domain,html);
+        // 对样式文件处理
+        html = loadCssFileStrToHtml(pageUrl,html);
+        // 对图片文件处理
+        html = loadImgHttpSrcToHtml(pageUrl,html);
         int indexHead = html.indexOf("<head>") + 6;
         StringBuffer newHtmlBuf = new StringBuffer("");
         if(indexHead > 0) {
@@ -110,19 +115,20 @@ public class Html2WordService {
     }
 
     /**
-     * html文档对img标签进行处理，改成非img标签:[img={src}]格式化html文本用，保留图片
-     * @param domain
+     * html文档对link标签进行处理，改成<style></style>
+     * @param pageUrl
      * @param htmlText
      * @return
      */
-    private String loadCssFileStrToHtml(String domain,String htmlText){
+    private String loadCssFileStrToHtml(String pageUrl,String htmlText){
         String linkCssHref = "";
         Pattern p_link;
         Matcher m_link;
-        String regEx_img = "<link.*href\\s*=\\s*[\"|']{1}?([^\"|^']*?)[\"|']{1}[^>]*?>";
-        p_link = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
+        String regEx_link = "<link.*href\\s*=\\s*[\"|']{1}?([^\"|^']*?)[\"|']{1}[^>]*?>";
+        p_link = Pattern.compile(regEx_link, Pattern.CASE_INSENSITIVE);
         m_link = p_link.matcher(htmlText);
         StringBuffer html_sb = new StringBuffer();
+        String domain = getDomainWithHttp(pageUrl);
         while (m_link.find()) {
             // 得到<img .../>数据
             linkCssHref = m_link.group(1);
@@ -137,6 +143,12 @@ public class Html2WordService {
                     }
                 }else if(linkCssHref.startsWith("/")){
                     linkCssHref = domain + linkCssHref;
+                }else if(!linkCssHref.startsWith("http")){
+                    if(pageUrl.endsWith("/")){
+                        linkCssHref = pageUrl + linkCssHref;
+                    }else {
+                        linkCssHref = pageUrl + "/" + linkCssHref;
+                    }
                 }
                 String cssStr = DownloadUtils.getContentFromUrl(linkCssHref);
                 //*** 匹配<img>中的src数据,并替换为本地服务http的地址
@@ -146,6 +158,51 @@ public class Html2WordService {
             }
         }
         m_link.appendTail(html_sb);
+        return html_sb.toString();
+    }
+    /**
+     * html文档对link标签进行处理，改成<style></style>
+     * @param pageUrl
+     * @param htmlText
+     * @return
+     */
+    private String loadImgHttpSrcToHtml(String pageUrl,String htmlText){
+        String imgSrc = "";
+        Pattern p_img;
+        Matcher m_img;
+        String regEx_img = "<img.*src\\s*=\\s*[\"|']{1}?([^\"|^']*?)[\"|']{1}[^>]*?>";
+        p_img = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
+        m_img = p_img.matcher(htmlText);
+        StringBuffer html_sb = new StringBuffer();
+        String domain = getDomainWithHttp(pageUrl);
+        while (m_img.find()) {
+            // 得到<img .../>数据
+            imgSrc = m_img.group(1);
+            if(BaseUtils.isBlank(imgSrc) || imgSrc.startsWith("http")){
+                m_img.appendReplacement(html_sb,m_img.group());
+            }else {
+                if(imgSrc.startsWith("//")){
+                    if(domain.startsWith("https")){
+                        imgSrc = "https:" + imgSrc;
+                    }else {
+                        imgSrc = "http:" + imgSrc;
+                    }
+                }else if(imgSrc.startsWith("/")){
+                    imgSrc = domain + imgSrc;
+                }else {
+                    if(pageUrl.endsWith("/")){
+                        imgSrc = pageUrl + imgSrc;
+                    }else {
+                        imgSrc = pageUrl + "/" + imgSrc;
+                    }
+                }
+                logger.info("处理图片：{}",imgSrc);
+                String img_Tag = m_img.group().replaceAll("src\\s*=\\s*[\"|']{1}?([^\"|^']*?)[\"|']{1}","src=\"" + imgSrc + "\"");
+                //*** 匹配<img>中的src数据,并替换为本地服务http的地址
+                m_img.appendReplacement(html_sb, img_Tag);
+            }
+        }
+        m_img.appendTail(html_sb);
         return html_sb.toString();
     }
 }

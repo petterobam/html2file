@@ -32,6 +32,10 @@
 
     例如：http://localhost:7800/html2markdown?pageUrl=http://jsoup.org
 
+4.网页转WORD（参用[Apache POI](http://poi.apache.org)）
+
+    例如：http://localhost:7800/html2word?pageUrl=https://www.tuicool.com/articles/vuEvEva
+
 # API 服务
 
 1. 服务入口：```/html2file```
@@ -48,7 +52,7 @@
     }
     ```
     - ```pageUrl```：目标链接，带http的链接，无登陆权限验证
-    - ```fileType```：文件类型，1-img,2-pdf,3-markdown
+    - ```fileType```：文件类型，1-img,2-pdf,3-markdown,4-word
     - ```fileExt```：文件扩展名，图片转化可以转化为不同后缀格式的图片
     - ```pageHtmlContent```：目标页面Html内容，当不能提供pageUrl时，将html内容传入也可以转化，其中引用的css和js需要为带http的路径，不能为相对路径
 

@@ -6,6 +6,7 @@ import my.html2file.html2html.service.Html2HtmlService;
 import my.html2file.html2image.service.Html2ImageService;
 import my.html2file.html2markdown.service.Html2MarkdownService;
 import my.html2file.html2pdf.service.Html2PdfService;
+import my.html2file.html2word.service.Html2WordService;
 import my.html2file.utils.BaseUtils;
 import my.html2file.utils.PathUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class MainController {
     private Html2MarkdownService html2MarkdownService;
     @Autowired
     private Html2HtmlService html2HtmlService;
+    @Autowired
+    private Html2WordService html2WordService;
     @Value("${server.port}")
     private String serverPort;
 
@@ -48,7 +51,7 @@ public class MainController {
     }
 
     /**
-     * html页面PDF
+     * html页面转PDF
      *
      * @param pageUrl
      * @return
@@ -64,7 +67,7 @@ public class MainController {
         }
     }
     /**
-     * html页面markdown
+     * html页面转markdown
      *
      * @param pageUrl
      * @return
@@ -73,6 +76,22 @@ public class MainController {
     public String html2markdown(@RequestParam(name = "pageUrl") String pageUrl) {
         try {
             String fileRelativePath = html2MarkdownService.excute(pageUrl);
+            return "redirect:" + fileRelativePath;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/error";
+        }
+    }
+    /**
+     * html页面转word
+     *
+     * @param pageUrl
+     * @return
+     */
+    @RequestMapping("/html2word")
+    public String html2word(@RequestParam(name = "pageUrl") String pageUrl) {
+        try {
+            String fileRelativePath = html2WordService.excute(pageUrl);
             return "redirect:" + fileRelativePath;
         } catch (Exception e) {
             e.printStackTrace();
@@ -104,6 +123,8 @@ public class MainController {
                 fileRelativePath = html2PdfService.excute(myAjaxPost.getPageUrl());
             }else if (MyAjaxPost.TO_MD.equals(myAjaxPost.getFileType())) {
                 fileRelativePath = html2MarkdownService.excute(myAjaxPost.getPageUrl());
+            }else if(MyAjaxPost.TO_WORD.equals(myAjaxPost.getFileType())) {
+                fileRelativePath = html2WordService.excute(myAjaxPost.getPageUrl());
             }else {
                 result.setStatus(MyAjaxResult.FAIL);
                 fileRelativePath = "暂时不支持该类型文档转化！";
@@ -112,7 +133,7 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
             result.setStatus(MyAjaxResult.FAIL);
-            result.setErrorMsg("解析失败！");
+            result.setErrorMsg("解析失败！{" + e.getMessage() + "}");
         }
         return result;
     }

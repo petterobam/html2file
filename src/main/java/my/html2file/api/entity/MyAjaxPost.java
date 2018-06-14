@@ -4,6 +4,7 @@ public class MyAjaxPost {
     public static final String TO_IMG = "1";
     public static final String TO_PDF = "2";
     public static final String TO_MD = "3";
+    public static final String TO_WORD = "4";
     /**
      * 目标链接
      */

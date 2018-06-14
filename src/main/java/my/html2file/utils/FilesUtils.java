@@ -1,6 +1,7 @@
 package my.html2file.utils;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -868,5 +869,20 @@ public class FilesUtils {
                 isSucceed = deleteFile.delete();
         }
         return isSucceed;
+    }
+
+    /**
+     * 关闭 对象管道
+     * @param closeable
+     */
+    public static void closeQuietly(Closeable closeable) {
+        try {
+            if(closeable != null) {
+                closeable.close();
+            }
+        } catch (IOException var2) {
+            ;
+        }
+
     }
 }

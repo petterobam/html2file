@@ -2,7 +2,7 @@
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
-# my-html2file
+# html2file
 自己用java写文档转化生成果然有很多弊端和不兼容的地方，而一些开源插件转这些东西还是效果蛮不错，于是心生收集各种插件（兼容windows和linux）并封装成服务的想法。
 
 这里我将收集一系列html转文档的开源插件，做成html页面转文件的微服务集成Web应用，预计包含：

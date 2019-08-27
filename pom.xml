@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>my-html2file</groupId>
-    <artifactId>my-html2file</artifactId>
+    <groupId>html2file</groupId>
+    <artifactId>html2file</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <parent>
@@ -78,6 +78,14 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>${poi.version}</version>
+        </dependency>
+
+        <!--utils-->
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
         </dependency>
     </dependencies>
 
@@ -156,7 +164,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>my.html2file.MyHtml2FileApplication</mainClass>
+                            <mainClass>my.html2file.Html2FileApplication</mainClass>
                             <classpathPrefix>lib/</classpathPrefix>
                             <addClasspath>true</addClasspath>
                         </manifest>

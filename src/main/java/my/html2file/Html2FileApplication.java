@@ -18,11 +18,11 @@ import java.util.Arrays;
  */
 @SpringBootApplication
 @ComponentScan(basePackages = {"my.html2file"})
-public class MyHtml2FileApplication {
+public class Html2FileApplication {
     /**
      * 日志工具
      */
-    private Logger logger = LoggerFactory.getLogger(MyHtml2FileApplication.class);
+    private Logger logger = LoggerFactory.getLogger(Html2FileApplication.class);
 
     /**
      * 主程序
@@ -30,7 +30,7 @@ public class MyHtml2FileApplication {
      * @param args 构造函数
      */
     public static void main(String[] args) {
-        SpringApplication.run(MyHtml2FileApplication.class, args);
+        SpringApplication.run(Html2FileApplication.class, args);
     }
 
     /**
@@ -42,7 +42,7 @@ public class MyHtml2FileApplication {
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
-            logger.info("[my-html2file] Spring boot 服务");
+            logger.info("[html2file] Spring boot 服务");
             String[] beanNames = ctx.getBeanDefinitionNames();
             Arrays.sort(beanNames);
             for (String beanName : beanNames) {

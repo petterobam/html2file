@@ -2,6 +2,7 @@ package my.html2file.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -27,6 +28,30 @@ public class BaseUtils {
             }
         }
         return true;
+    }
+    /**
+     * 字符串是否为空
+     * @param str
+     * @return
+     */
+    public static boolean isNotBlank(String str){
+        return !isBlank(str);
+    }
+
+    public static boolean isNumeric(String cs) {
+        if(isBlank(cs)) {
+            return false;
+        } else {
+            int sz = cs.length();
+
+            for(int i = 0; i < sz; ++i) {
+                if(!Character.isDigit(cs.charAt(i))) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
     /**
      * 封装JDK自带的UUID, 通过Random数字生成, 中间有-分割.
@@ -61,5 +86,22 @@ public class BaseUtils {
 
     public static String trimToEmpty(String str) {
         return str == null ? "" : str.trim();
+    }
+
+    /**
+     * 是否包含
+     * @param array
+     * @param objectToFind
+     * @return
+     */
+    public static boolean contains(Object[] array, Object objectToFind) {
+        if (null != array) {
+            for (Object o : array) {
+                if (Objects.equals(o, objectToFind)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

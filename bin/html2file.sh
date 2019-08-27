@@ -1,17 +1,17 @@
 #!/bin/bash
 # author:petterobam
-# url:https://github.com/petterobam/my-html2file
-# Usage: sh my-html2file.sh start "-Xms128m -Xmx128m"
-# Usage: sh my-html2file.sh stop
-# Usage: sh my-html2file.sh status
-# Usage: sh my-html2file.sh reload 10
-# Usage: sh my-html2file.sh log
+# url:https://github.com/petterobam/html2file
+# Usage: sh html2file.sh start "-Xms128m -Xmx128m"
+# Usage: sh html2file.sh stop
+# Usage: sh html2file.sh status
+# Usage: sh html2file.sh reload 10
+# Usage: sh html2file.sh log
 env_args="-Xms128m -Xmx128m"
 sleeptime=0
 arglen=$#
-# get my-html2file pid
+# get html2file pid
 get_pid(){
-pname="`find .. -name 'my-html2file*.jar'`"
+pname="`find .. -name 'html2file*.jar'`"
 pname=${pname:3}
 pid=`ps -ef | grep $pname | grep -v grep | awk '{print $2}'`
 echo "$pid"
@@ -20,13 +20,13 @@ startup(){
 pid=$(get_pid)
 if [ "$pid" != "" ]
 then
-echo "my-html2file already startup!"
+echo "html2file already startup!"
 else
-jar_path=`find .. -name 'my-html2file*.jar'`
+jar_path=`find .. -name 'html2file*.jar'`
 echo "jarfile=$jar_path"
-cmd="java $1 -jar $jar_path > ./my-html2file.out < /dev/null &"
+cmd="java $1 -jar $jar_path > ./html2file.out < /dev/null &"
 echo "cmd: $cmd"
-java $1 -jar $jar_path > ./my-html2file.out < /dev/null &
+java $1 -jar $jar_path > ./html2file.out < /dev/null &
 echo "---------------------------------"
 echo "启动完成，按CTRL+C退出日志界面即可>>>>>"
 echo "---------------------------------"
@@ -38,26 +38,26 @@ pid=$(get_pid)
 if [ "$pid" != "" ]
 then
 kill -9 $pid
-echo "my-html2file is stop!"
+echo "html2file is stop!"
 else
-echo "my-html2file already stop!"
+echo "html2file already stop!"
 fi
 }
 show_log(){
-tail -f my-html2file.out
+tail -f html2file.out
 }
 show_help(){
-echo -e "\r\n\t欢迎使用my-html2file Blog"
-echo -e "\r\nUsage: sh my-html2file.sh start|stop|reload|status|log"
+echo -e "\r\n\t欢迎使用html2file Blog"
+echo -e "\r\nUsage: sh html2file.sh start|stop|reload|status|log"
 exit
 }
 show_status(){
 pid=$(get_pid)
 if [ "$pid" != "" ]
 then
-echo "my-html2file is running with pid: $pid"
+echo "html2file is running with pid: $pid"
 else
-echo "my-html2file is stop!"
+echo "html2file is stop!"
 fi
 }
 if [ $arglen -eq 0 ]

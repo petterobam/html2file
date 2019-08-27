@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/petterobam/my-html2file.svg?branch=master)](https://travis-ci.org/petterobam/my-html2file)
+[![Build Status](https://travis-ci.org/petterobam/html2file.svg?branch=master)](https://travis-ci.org/petterobam/html2file)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.svg?v=103)](https://opensource.org/licenses/mit-license.php)
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
@@ -16,9 +16,9 @@
 
 # 目前支持
 
-![wkhtmltopdf演示图片](docs/images/my-html2file-pdf-image.gif)
+![wkhtmltopdf演示图片](docs/images/html2file-pdf-image.gif)
 
-1.网页转PDF（[wkhtml2pdf插件](https://wkhtmltopdf.org)）
+1.网页转PDF（[wkhtml2pdf插件](https://wkhtmltopdf.org)
 
     例如：http://localhost:7800/html2pdf?pageUrl=https://wkhtmltopdf.org
 
@@ -26,17 +26,21 @@
 
     例如：http://localhost:7800/html2image?pageUrl=https://wkhtmltopdf.org&fileExt=[可为空|默认 .png]
 
-![jHTML2Md演示图片](docs/images/my-html2file-markdown.gif)
+![jHTML2Md演示图片](docs/images/html2file-markdown.gif)
 
 3.网页转Markdown（参用[jHTML2Md](https://github.com/pnikosis/jHTML2Md)）
 
     例如：http://localhost:7800/html2markdown?pageUrl=http://jsoup.org
 
-![html2word演示图片](docs/images/my-html2file-word.gif)
+![html2word演示图片](docs/images/html2file-word.gif)
 
 4.网页转WORD（参用[Apache POI](http://poi.apache.org)）
 
     例如：http://localhost:7800/html2word?pageUrl=http://poi.apache.org
+
+5.网页转WORD（参用[table-to-xls](https://gitee.com/chyxion/table-to-xls)
+
+    例如：http://localhost:7800/html2excel?pageUrl=http://www.jjwxc.net/bookbase_slave.php?booktype=free
 
 # API 服务
 
@@ -54,7 +58,7 @@
     }
     ```
     - ```pageUrl```：目标链接，带http的链接，无登陆权限验证
-    - ```fileType```：文件类型，1-img,2-pdf,3-markdown,4-word
+    - ```fileType```：文件类型，1-img,2-pdf,3-markdown,4-word,5-excel
     - ```fileExt```：文件扩展名，图片转化可以转化为不同后缀格式的图片
     - ```pageHtmlContent```：目标页面Html内容，当不能提供pageUrl时，将html内容传入也可以转化，其中引用的css和js需要为带http的路径，不能为相对路径
 
@@ -77,16 +81,16 @@
 1. linux系统
 
 ```
-chmod +x my-html2file.sh  #授权脚本
-sh my-html2file.sh start  #启动服务
-sh my-html2file.sh stop   #停止服务
-sh my-html2file.sh reload #重启服务
-sh my-html2file.sh status #状态查看
-sh my-html2file.sh log    #日志查看
+chmod +x html2file.sh  #授权脚本
+sh html2file.sh start  #启动服务
+sh html2file.sh stop   #停止服务
+sh html2file.sh reload #重启服务
+sh html2file.sh status #状态查看
+sh html2file.sh log    #日志查看
 ```
 中文乱码或空白的话，将 ```resources/font/simsun.ttc``` 拷贝到linux服务器 ```/usr/share/fonts/``` 目录下
 
 2. windows系统
 
-直接双击 ```my-html2file.bat``` 文件即可，也可以将该文件注册成服务，在服务管理里面启动。
+直接双击 ```html2file.bat``` 文件即可，也可以将该文件注册成服务，在服务管理里面启动。
 

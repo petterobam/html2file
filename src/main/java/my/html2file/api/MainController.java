@@ -2,6 +2,7 @@ package my.html2file.api;
 
 import my.html2file.api.entity.MyAjaxPost;
 import my.html2file.api.entity.MyAjaxResult;
+import my.html2file.html2excel.service.Html2ExcelService;
 import my.html2file.html2html.service.Html2HtmlService;
 import my.html2file.html2image.service.Html2ImageService;
 import my.html2file.html2markdown.service.Html2MarkdownService;
@@ -25,6 +26,8 @@ public class MainController {
     private Html2PdfService html2PdfService;
     @Autowired
     private Html2MarkdownService html2MarkdownService;
+    @Autowired
+    private Html2ExcelService html2ExcelService;
     @Autowired
     private Html2HtmlService html2HtmlService;
     @Autowired
@@ -83,6 +86,22 @@ public class MainController {
         }
     }
     /**
+     * html页面转excel
+     *
+     * @param pageUrl
+     * @return
+     */
+    @RequestMapping("/html2excel")
+    public String html2excel(@RequestParam(name = "pageUrl") String pageUrl) {
+        try {
+            String fileRelativePath = html2ExcelService.excute(pageUrl);
+            return "redirect:" + fileRelativePath;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/error";
+        }
+    }
+    /**
      * html页面转word
      *
      * @param pageUrl
@@ -123,6 +142,8 @@ public class MainController {
                 fileRelativePath = html2PdfService.excute(myAjaxPost.getPageUrl());
             }else if (MyAjaxPost.TO_MD.equals(myAjaxPost.getFileType())) {
                 fileRelativePath = html2MarkdownService.excute(myAjaxPost.getPageUrl());
+            }else if (MyAjaxPost.TO_EXCEL.equals(myAjaxPost.getFileType())) {
+                fileRelativePath = html2ExcelService.excute(myAjaxPost.getPageUrl());
             }else if(MyAjaxPost.TO_WORD.equals(myAjaxPost.getFileType())) {
                 fileRelativePath = html2WordService.excute(myAjaxPost.getPageUrl());
             }else {

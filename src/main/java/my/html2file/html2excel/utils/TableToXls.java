@@ -4,11 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -24,8 +26,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 import my.html2file.html2excel.utils.css.CssApplier;
+import my.html2file.html2excel.utils.css.bean.XlsCssStyle;
 import my.html2file.html2excel.utils.css.support.AlignApplier;
 import my.html2file.html2excel.utils.css.support.BackgroundApplier;
 import my.html2file.html2excel.utils.css.support.BorderApplier;
@@ -41,12 +45,8 @@ import my.html2file.html2excel.utils.css.support.WidthApplier;
  * @since 0.0.1
  */
 public class TableToXls {
-    private static final Logger log =
-            LoggerFactory.getLogger(TableToXls.class);
-    private static final List<CssApplier> STYLE_APPLIERS =
-            new LinkedList<CssApplier>();
-
-    private static TableToXls self = null;
+    private static final Logger log = LoggerFactory.getLogger(TableToXls.class);
+    private static final List<CssApplier> STYLE_APPLIERS = new LinkedList<CssApplier>();
 
     // static init
     static {
@@ -56,7 +56,6 @@ public class TableToXls {
         STYLE_APPLIERS.add(new HeightApplier());
         STYLE_APPLIERS.add(new BorderApplier());
         STYLE_APPLIERS.add(new TextApplier());
-        self = new TableToXls();
     }
 
     private HSSFWorkbook workBook = new HSSFWorkbook();
@@ -97,10 +96,20 @@ public class TableToXls {
      * @return xls bytes
      */
     public static byte[] process(CharSequence html) {
+        return process(html, new ArrayList<XlsCssStyle>(0));
+    }
+    /**
+     * process html to xls
+     *
+     * @param html html char sequence
+     *
+     * @return xls bytes
+     */
+    public static byte[] process(CharSequence html, List<XlsCssStyle> defaultStyleList) {
         ByteArrayOutputStream baos = null;
         try {
             baos = new ByteArrayOutputStream();
-            process(html, baos);
+            process(html, baos, defaultStyleList);
             return baos.toByteArray();
         } finally {
             if (baos != null) {
@@ -120,7 +129,16 @@ public class TableToXls {
      * @param output output stream
      */
     public static void process(CharSequence html, OutputStream output) {
-        self.doProcessFromHtml(html instanceof String ? (String) html : html.toString(), output);
+        process(html, output, null);
+    }
+    /**
+     * process html to output stream
+     *
+     * @param html   html char sequence
+     * @param output output stream
+     */
+    public static void process(CharSequence html, OutputStream output, List<XlsCssStyle> defaultStyleList) {
+        new TableToXls().doProcessFromHtml(html instanceof String ? (String) html : html.toString(), output, defaultStyleList);
     }
 
     /**
@@ -130,13 +148,24 @@ public class TableToXls {
      * @param output output stream
      */
     public static void process(URL url, int timeoutMillis, OutputStream output) throws IOException {
-        self.doProcessFromUrl(url, timeoutMillis, output);
+        process(url, timeoutMillis, output, null);
+    }
+    /**
+     * process html to output stream
+     *
+     * @param url    html url
+     * @param output output stream
+     */
+    public static void process(URL url, int timeoutMillis, OutputStream output, List<XlsCssStyle> defaultStyleList) throws IOException {
+        new TableToXls().doProcessFromUrl(url, timeoutMillis, output, defaultStyleList);
     }
 
-    // --
-    // private methods
-
+    // private methods 转化 数据准备
     private void processTable(Element table) {
+        processTable(table, null);
+    }
+    // private methods 转化 数据准备
+    private void processTable(Element table, List<XlsCssStyle> defaultStyleList) {
         int rowIndex = 0;
         if (maxRow > 0) {
             // blank row
@@ -155,6 +184,8 @@ public class TableToXls {
                     ++colIndex;
                 }
                 log.info("Parse Col [{}], Col Index [{}].", td, colIndex);
+                // 用户定义默认样式填充
+                fillDefaultStyle(td, defaultStyleList, rowIndex, colIndex);
                 int rowSpan = 0;
                 String strRowSpan = td.attr("rowspan");
                 if (StringUtils.isNotBlank(strRowSpan) &&
@@ -194,20 +225,51 @@ public class TableToXls {
         }
     }
 
-    private void doProcessFromHtml(String html, OutputStream output) {
+    // 默认样式填充
+    private void fillDefaultStyle(Element td, List<XlsCssStyle> defaultStyleList, int rowIndex, int colIndex) {
+        if (CollectionUtils.isEmpty(defaultStyleList)) {
+            return;
+        }
+        for (XlsCssStyle style : defaultStyleList) {
+            if (StringUtils.isBlank(style.getStyle())) {
+                continue;
+            }
+            boolean forOneCell = Objects.equals(style.getCol(), colIndex)
+                    && Objects.equals(style.getRow(), rowIndex);
+            boolean forAll = null == style.getCol() && null == style.getRow();
+            boolean forRow = Objects.equals(style.getRow(), rowIndex) && null == style.getCol();
+            boolean forCol = Objects.equals(style.getCol(), colIndex) && null == style.getRow();
+            if (forOneCell || forRow || forCol || forAll) {
+                String beforeStyle = td.attr(CssApplier.STYLE);
+                if (StringUtils.isBlank(beforeStyle)) {
+                    td.attr(CssApplier.STYLE, style.getStyle());
+                } else {
+                    if (style.isOverEffect()) {
+                        String split = beforeStyle.endsWith(";") ? "" : ";";
+                        td.attr(CssApplier.STYLE, beforeStyle + split + style.getStyle());
+                    } else {
+                        String split = style.getStyle().endsWith(";") ? "" : ";";
+                        td.attr(CssApplier.STYLE, style.getStyle() + split + beforeStyle);
+                    }
+                }
+            }
+        }
+    }
+
+    private void doProcessFromHtml(String html, OutputStream output, List<XlsCssStyle> defaultStyleList) {
         Document doc = Jsoup.parseBodyFragment(html);
-        doProcess(doc, output);
+        doProcess(doc, output, defaultStyleList);
     }
 
-    private void doProcessFromUrl(URL url, int timeoutMillis, OutputStream output) throws IOException {
+    private void doProcessFromUrl(URL url, int timeoutMillis, OutputStream output, List<XlsCssStyle> defaultStyleList) throws IOException {
         Document doc = Jsoup.parse(url, timeoutMillis);
-        doProcess(doc, output);
+        doProcess(doc, output, defaultStyleList);
     }
 
-    private void doProcess(Document doc, OutputStream output) {
+    private void doProcess(Document doc, OutputStream output, List<XlsCssStyle> defaultStyleList) {
         try {
             for (Element table : doc.select("table")) {
-                processTable(table);
+                processTable(table, defaultStyleList);
             }
             workBook.write(output);
         } catch (IOException e) {

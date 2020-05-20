@@ -40,7 +40,7 @@
     例如：http://localhost:7800/html2word?pageUrl=http://poi.apache.org
 ![html2word演示图片](docs/images/html2file-excel.gif)
 
-5.网页转WORD（参用[table-to-xls](https://gitee.com/chyxion/table-to-xls)）
+5.网页转Excel（参用[table-to-xls](https://gitee.com/chyxion/table-to-xls)）
 
     例如：http://localhost:7800/html2excel?pageUrl=http://www.jjwxc.net/bookbase_slave.php?booktype=free
 

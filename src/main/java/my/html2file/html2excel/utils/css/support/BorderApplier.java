@@ -9,6 +9,7 @@ import org.apache.commons.lang3.reflect.MethodUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +53,8 @@ public class BorderApplier implements CssApplier {
 	/**
 	 * {@inheritDoc}
 	 */
-    public Map<String, String> parse(Map<String, String> style) {
+    @Override
+	public Map<String, String> parse(Map<String, String> style) {
     	Map<String, String> mapRtn = new HashMap<String, String>();
     	for (String pos : new String[] {null, TOP, RIGHT, BOTTOM, LEFT}) {
     		// border[-attr]
@@ -80,7 +82,8 @@ public class BorderApplier implements CssApplier {
     /**
      * {@inheritDoc}
      */
-    public void apply(HSSFCell cell, HSSFCellStyle cellStyle, Map<String, String> style) {
+    @Override
+	public void apply(HSSFCell cell, HSSFCellStyle cellStyle, Map<String, String> style) {
     	for (String pos : new String[] {TOP, RIGHT, BOTTOM, LEFT}) {
     		String posName = StringUtils.capitalize(pos.toLowerCase());
     		// color
@@ -104,30 +107,30 @@ public class BorderApplier implements CssApplier {
     		// empty or solid
     		if (StringUtils.isBlank(styleValue) || "solid".equals(styleValue)) {
     			if (width > 2) {
-    				shortValue = CellStyle.BORDER_THICK;
+    				shortValue = BorderStyle.THICK.getCode();
     			}
     			else if (width > 1) {
-    				shortValue = CellStyle.BORDER_MEDIUM;
+    				shortValue = BorderStyle.MEDIUM.getCode();
     			}
     			else {
-    				shortValue = CellStyle.BORDER_THIN;
+    				shortValue = BorderStyle.THIN.getCode();
     			}
     		}
     		else if (ArrayUtils.contains(new String[] {NONE, HIDDEN}, styleValue)) {
-    			shortValue = CellStyle.BORDER_NONE;
+    			shortValue = BorderStyle.NONE.getCode();
     		}
     		else if (DOUBLE.equals(styleValue)) {
-    			shortValue = CellStyle.BORDER_DOUBLE;
+    			shortValue = BorderStyle.DOUBLE.getCode();
     		}
     		else if (DOTTED.equals(styleValue)) {
-    			shortValue = CellStyle.BORDER_DOTTED;
+    			shortValue = BorderStyle.DOTTED.getCode();
     		}
     		else if (DASHED.equals(styleValue)) {
     			if (width > 1) {
-    				shortValue = CellStyle.BORDER_MEDIUM_DASHED;
+    				shortValue = BorderStyle.MEDIUM_DASHED.getCode();
     			}
     			else {
-    				shortValue = CellStyle.BORDER_DASHED;
+    				shortValue = BorderStyle.DASHED.getCode();
     			}
     		}
     		// border style

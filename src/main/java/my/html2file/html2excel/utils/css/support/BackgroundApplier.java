@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 
 import my.html2file.html2excel.utils.css.CssApplier;
 import my.html2file.html2excel.utils.css.CssUtils;
+import org.apache.poi.ss.usermodel.FillPatternType;
 
 /**
  * @version 0.0.1
@@ -53,10 +54,11 @@ public class BackgroundApplier implements CssApplier {
     /**
      * {@inheritDoc}
      */
-    public void apply(HSSFCell cell, HSSFCellStyle cellStyle, Map<String, String> style) {
+    @Override
+	public void apply(HSSFCell cell, HSSFCellStyle cellStyle, Map<String, String> style) {
     	String bgColor = style.get(BACKGROUND_COLOR);
     	if (StringUtils.isNotBlank(bgColor)) {
-    		cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+    		cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
     		cellStyle.setFillForegroundColor(
     			CssUtils.parseColor(cell.getSheet().getWorkbook(), 
     					bgColor).getIndex());

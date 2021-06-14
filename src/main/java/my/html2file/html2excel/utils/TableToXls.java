@@ -20,8 +20,10 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -75,10 +77,10 @@ public class TableToXls {
         sheet = workBook.createSheet();
         defaultCellStyle = workBook.createCellStyle();
         defaultCellStyle.setWrapText(true);
-        defaultCellStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
+        defaultCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         // border
         short black = new HSSFColor.BLACK().getIndex();
-        short thin = CellStyle.BORDER_THIN;
+        BorderStyle thin = BorderStyle.THIN;
         // top
         defaultCellStyle.setBorderTop(thin);
         defaultCellStyle.setTopBorderColor(black);

@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import my.html2file.html2excel.utils.css.CssApplier;
 import my.html2file.html2excel.utils.css.CssUtils;
 
+import static java.util.regex.Pattern.compile;
+
 /**
  * supports: <br>
  * color: name | #rgb | #rrggbb | rgb(r, g, b) <br>
@@ -68,7 +70,8 @@ public class TextApplier implements CssApplier {
     /**
      * {@inheritDoc}
      */
-    public void apply(HSSFCell cell, HSSFCellStyle cellStyle, Map<String, String> style) {
+    @Override
+	public void apply(HSSFCell cell, HSSFCellStyle cellStyle, Map<String, String> style) {
     	HSSFWorkbook workBook = cell.getSheet().getWorkbook();
     	HSSFFont font = null;
     	if (ITALIC.equals(style.get(FONT_STYLE))) {
@@ -82,7 +85,7 @@ public class TextApplier implements CssApplier {
     	}
     	if (BOLD.equals(style.get(FONT_WEIGHT))) {
     		font = getFont(cell, font);
-    		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+    		font.setBold(true);
     	}
     	String fontFamily = style.get(FONT_FAMILY);
     	if (StringUtils.isNotBlank(fontFamily)) {
@@ -134,7 +137,7 @@ public class TextApplier implements CssApplier {
     			font.replaceAll("^|\\s*" + StringUtils.join(ignoreStyles, "|") + "\\s+|$", " "));
     		log.debug("Font Attr [{}] After Process Ingore.", sbFont);
     		// style
-    		Matcher m = Pattern.compile("(?:^|\\s+)(italic|oblique)(?:\\s+|$)")
+    		Matcher m = compile("(?:^|\\s+)(italic|oblique)(?:\\s+|$)")
     						.matcher(sbFont.toString());
     		if (m.find()) {
     			sbFont.setLength(0);
@@ -146,7 +149,7 @@ public class TextApplier implements CssApplier {
     			m.appendTail(sbFont);
     		}
     		// weight
-    		m = Pattern.compile("(?:^|\\s+)(bold(?:er)?|[7-9]00)(?:\\s+|$)")
+    		m = compile("(?:^|\\s+)(bold(?:er)?|[7-9]00)(?:\\s+|$)")
     				.matcher(sbFont.toString());
     		if (m.find()) {
     			sbFont.setLength(0);
@@ -158,7 +161,7 @@ public class TextApplier implements CssApplier {
     			m.appendTail(sbFont);
     		}
     		// size xx-small | x-small | small | medium | large | x-large | xx-large | 18px [/2]
-    		m = Pattern.compile(
+    		m = compile(
     				// before blank or start
     				new StringBuilder("(?:^|\\s+)")
     				// font size

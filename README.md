@@ -96,3 +96,6 @@ sh html2file.sh log    #日志查看
 
 直接双击 ```html2file.bat``` 文件即可，也可以将该文件注册成服务，在服务管理里面启动。
 
+# Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=petterobam/html2file&type=Date)](https://star-history.com/#petterobam/html2file&Date)

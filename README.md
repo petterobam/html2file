@@ -98,4 +98,4 @@ sh html2file.sh log    #日志查看
 
 # Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=petterobam/html2file&type=Date)](https://star-history.com/#petterobam/html2file&Date)
+[![star-history-20231110](https://raw.githubusercontent.com/petterobam/picture-bucket/main/vs-code/upload/imgsstar-history-20231110.png)](https://star-history.com/#petterobam/html2file&Date)
